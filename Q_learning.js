@@ -1,0 +1,3 @@
+
+GameSnake.init()
+GameSnake.loop()
