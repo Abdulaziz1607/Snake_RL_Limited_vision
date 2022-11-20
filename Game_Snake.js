@@ -47,7 +47,7 @@ class GameSnake {
     }
        
     drawGame(action){
-    
+        this.reward = -0.1;
         this.changeSnakePosition();
         this.ClearScreen();
 
@@ -66,8 +66,8 @@ class GameSnake {
                 this.ClearScreen()
                 return
             } 
-        }
-        
+        }    
+     
         this.checkAppleCollision();
         this.drawScore();
         this.drawSnake();
@@ -81,7 +81,6 @@ class GameSnake {
 
     drawSnake(){
 
-        this.last_tail;
         for(let i = 0;i < this.snakeParts.length; i++ ){
             let part = this.snakeParts[i]
             this.ctx.fillStyle= "pink";
@@ -229,7 +228,7 @@ class GameSnake {
     action_taken(action){
 
         // up
-        if(action == 1){
+        if(this.ActionEnum[action] == 1){
             if(this.yVelocity == 1)
                 return;
             this.yVelocity = -1;
@@ -238,7 +237,7 @@ class GameSnake {
         }
 
         // down
-        if(action == 2){
+        if(this.ActionEnum[action] == 2){
             if(this.yVelocity == -1)
                 return;
             this.yVelocity = 1;
@@ -248,7 +247,7 @@ class GameSnake {
         }
 
         // left
-        if(action == 3){
+        if(this.ActionEnum[action] == 3){
             if(this.xVelocity == 1)
                 return;
             this.yVelocity = 0;
@@ -258,7 +257,7 @@ class GameSnake {
         }
 
         // rigth
-        if(action.action == 4){
+        if(this.ActionEnum[action] == 4){
             if(this.xVelocity == -1)
                 return;
             this.yVelocity = 0;
@@ -292,6 +291,7 @@ class GameSnake {
             }
           
             if ( (x == this.appleX*this.tileCount) && (y == this.appleY*this.tileCount)){
+                this.reward = 0.1
                 state_ = 1
                 return  state_
             }
