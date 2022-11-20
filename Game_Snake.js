@@ -7,12 +7,15 @@ class GameSnake {
 
         this.speed = speed;
         this.tileCount = tileCount;
-        this.tileSize = (width_canvas/ tileCount) - 2;
+        this.tileSize = (width_canvas/ tileCount) ;
         this.q_learning = q_learning;
         this.ActionEnum = {"none":0,"up":1,"down":2,"left":3,"right":4};
         this.lastaction;
         this.angle_range = angle_range
         this.vision_length = vision_length
+        this.test = 0
+        this.reward = -0.1
+        this.state_all = "0-0-0-0"
     }
 
     setup(){
@@ -50,13 +53,17 @@ class GameSnake {
        
     drawGame(){
     
+        console.log(this.state_all)
         this.changeSnakePosition();
         this.ClearScreen();
 
         this.angle_vision()
         this.isGameOver()
         if (this.stop==false){
+            // if (this.test == 30)
+            //     return 
             setTimeout(this.drawGame.bind(this), 1000/this.speed);
+            this.test++
         }
         else{
             this.ClearScreen()
@@ -81,7 +88,7 @@ class GameSnake {
         this.last_tail;
         for(let i = 0;i < this.snakeParts.length; i++ ){
             let part = this.snakeParts[i]
-            this.ctx.fillStyle= "orange";
+            this.ctx.fillStyle= "pink";
             this.ctx.fillRect(part.x * this.tileCount, part.y * this.tileCount,this.tileSize,this.tileSize)
         }
         if (this.lastaction != 0){
@@ -92,13 +99,13 @@ class GameSnake {
             }
         }
 
-        this.ctx.fillStyle = 'red';
+        this.ctx.fillStyle = 'green';
         this.ctx.fillRect(this.headX * this.tileCount, this.headY * this.tileCount, this.tileSize, this.tileSize)
     }
 
     drawApple(){
 
-        this.ctx.fillStyle= 'green';
+        this.ctx.fillStyle= 'red';
         this.ctx.fillRect(this.appleX*this.tileCount,this.appleY*this.tileCount,this.tileSize,this.tileSize);
 
     }
@@ -152,7 +159,7 @@ class GameSnake {
                     break
                 }
             }
-
+            this.reward = 1
             this.tailLengt++;
             this.score++;
         }
@@ -168,6 +175,7 @@ class GameSnake {
     
                 if (part.x === this.headX && part.y === this.headY){
                     this.stop =  true;
+                    this.reward = -1
                     this.reset()
                     break
                 }
@@ -211,15 +219,15 @@ class GameSnake {
             this.xVelocity = 1;
             this.lastaction = this.ActionEnum.right
         }
-        // if(event.keyCode == 32){
-        //     if(this.xVelocity == 0 && this.yVelocity == 0)
-        //         return;
-        //     this.lastaction = this.ActionEnum.none
-        //     this.snakeParts.pop()
-        //     this.snakeParts.unshift(this.last_tail);
-        //     this.yVelocity = 0;
-        //     this.xVelocity = 0;
-        // }
+        if(event.keyCode == 32){
+            if(this.xVelocity == 0 && this.yVelocity == 0)
+                return;
+            this.lastaction = this.ActionEnum.none
+            this.snakeParts.pop()
+            this.snakeParts.unshift(this.last_tail);
+            this.yVelocity = 0;
+            this.xVelocity = 0;
+        }
     }
 
     action_taken(action){
@@ -263,18 +271,15 @@ class GameSnake {
         }
     }
 
-    draw_radar(angle){
+    draw_radar(angle,color){
 
-        this.x = this.headX
-        this.y = this.headY
 
-        let array_X = []
-        let array_Y = []
+        let state_ = 0
 
-        for(let i = 1 ;i < (this.vision_length+1); i++ ){
+        for(let i =0 ;i < (this.vision_length+1); i = i + this.tileSize ){
             
-            let x = this.headX*this.tileCount+(this.tileSize/2) + i*Math.cos(angle)
-            let y = this.headY*this.tileCount+(this.tileSize/2) + i*Math.sin(angle)
+            let x = this.headX*this.tileCount + i*Math.floor(Math.cos(angle))
+            let y = this.headY*this.tileCount + i*Math.floor(Math.sin(angle))
 
 
             if (x > (this.tileCount*this.tileCount-1)){
@@ -290,51 +295,74 @@ class GameSnake {
                 y = this.tileCount*this.tileCount -1 + y
             }
           
-            if ( (this.headX+ i*Math.cos(angle)) === this.appleX &&   (this.headY+ i*Math.sin(angle)) === this.appleY){
-                break
+            if ( (x == this.appleX*this.tileCount) && (y == this.appleY*this.tileCount)){
+                state_ = 1
+                return  state_
             }
-        
+            for(let l =0 ;l < (this.snakeParts.length); l ++ ){
+                let part = this.snakeParts[l]
+                if (part.x * this.tileCount == x && part.y * this.tileCount == y){
+                    state_ = 2
+                    return state_
+                }
 
-            array_X.push(x)
-            array_Y.push(y)
-            this.ctx.fillStyle="blue"
-            this.ctx.fillRect(x, y, 1, 1);
+            }
+    
+            // array_X.push(x)
+            // array_Y.push(y)
+            this.ctx.fillStyle=color;
+            this.ctx.fillRect(x, y, this.tileSize, this.tileSize);
    
         }
 
-        return array_X,array_Y
+        return state_
 
     }
 
     angle_vision(){
-
-        this.coord_x = {up : [], down : [], left: [], right: []}
-        this.coord_y = {up : [], down : [], left: [], right: []}
-
+        let state_face;
+        let state_left;
+        let state_right;
 
         if (this.lastaction == 1){
-            this.coord_x.up,this.coord_y.up = this.draw_radar(-Math.PI/2)
-            this.coord_x.left,this.coord_y.left = this.draw_radar(Math.PI)
-            this.coord_x.right,this.coord_y.right = this.draw_radar(0)
+        
+            state_face = this.draw_radar(-Math.PI/2,"blue")
+            state_left = this.draw_radar(Math.PI,"blue")
+            state_right = this.draw_radar(0,"blue")
+
+            this.state_all = this.lastaction + "-" + state_face + '-' + state_left + '-' + state_right
+            
         }
 
         if (this.lastaction == 2){
-            this.coord_x.down,this.coord_y.down =this.draw_radar(Math.PI/2)
-            this.coord_x.left,this.coord_y.left = this.draw_radar(Math.PI)
-            this.coord_x.right,this.coord_y.right = this.draw_radar(0)
+
+            state_face = this.draw_radar(Math.PI/2,"blue")
+            state_right = this.draw_radar(Math.PI,"blue")
+            state_left = this.draw_radar(0,"blue")
+
+            this.state_all = this.lastaction + "-" + state_face + '-' + state_left + '-' + state_right
         }
 
         if (this.lastaction == 3){
-            this.coord_x.up,this.coord_y.up = this.draw_radar(-Math.PI/2)
-            this.coord_x.down,this.coord_y.down = this.draw_radar(Math.PI/2)
-            this.coord_x.left,this.coord_y.left = this.draw_radar(Math.PI)
+
+            state_face = this.draw_radar(Math.PI,"blue")
+            state_left = this.draw_radar(Math.PI/2,"blue")
+            state_right = this.draw_radar(-Math.PI/2,"blue")
+       
+            this.state_all = this.lastaction + '-'+ state_face + '-' + state_left + '-' + state_right
+
         }
 
         if (this.lastaction == 4){
-            this.coord_x.up,this.coord_y.up = this.draw_radar(-Math.PI/2)
-            this.coord_x.down,this.coord_y.down = this.draw_radar(Math.PI/2)
-            this.coord_x.right,this.coord_y.right = this.draw_radar(0)
+
+            state_face= this.draw_radar(0,"blue")
+            state_left= this.draw_radar(-Math.PI/2,"blue")
+            state_right = this.draw_radar(Math.PI/2,"blue")
+
+            this.state_all = this.lastaction + "-" + state_face + '-' + state_left + '-' + state_right
+
         }
+        
         
     }
 
