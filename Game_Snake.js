@@ -7,19 +7,17 @@ class GameSnake {
 
         this.speed = speed;
         this.tileCount = tileCount;
-        this.tileSize = (width_canvas/ tileCount) ;
+        this.tileSize = (width_canvas/ tileCount);
         this.q_learning = q_learning;
         this.ActionEnum = {"none":0,"up":1,"down":2,"left":3,"right":4};
         this.lastaction;
-        this.angle_range = angle_range
-        this.vision_length = vision_length
-        this.test = 0
-        this.reward = -0.1
-        this.state_all = "0-0-0-0"
+        this.angle_range = angle_range;
+        this.vision_length = vision_length;
+        this.reward = -0.1;
+        this.state_all = "0-0-0-0";
     }
 
     setup(){
-
         this.canvas = document.getElementById('game');
         this.ctx = this.canvas.getContext("2d");
         if (this.q_learning==false){
@@ -32,8 +30,6 @@ class GameSnake {
     }
 
     reset(){
-
-    
         this.headX = this.tileCount/2;
         this.headY = this.tileCount/2;
         
@@ -47,27 +43,29 @@ class GameSnake {
         this.tailLengt = 0
 
         this.score = 0;
-
         this.stop = false
     }
        
-    drawGame(){
+    drawGame(action){
     
-        console.log(this.state_all)
         this.changeSnakePosition();
         this.ClearScreen();
 
         this.angle_vision()
         this.isGameOver()
-        if (this.stop==false){
-            // if (this.test == 30)
-            //     return 
+        if (this.stop==false && this.q_learning == false){
+    
             setTimeout(this.drawGame.bind(this), 1000/this.speed);
-            this.test++
+          
         }
         else{
-            this.ClearScreen()
-            return 
+            if (this.stop==false && this.q_learning == true){
+                this.action_taken(action) 
+            }
+            else{
+                this.ClearScreen()
+                return
+            } 
         }
         
         this.checkAppleCollision();
@@ -80,8 +78,6 @@ class GameSnake {
         this.ctx.fillStyle = 'black';
         this.ctx.fillRect(0,0,this.canvas.width, this.canvas.height);
     }
-
-
 
     drawSnake(){
 
@@ -307,7 +303,6 @@ class GameSnake {
                 }
 
             }
-    
             // array_X.push(x)
             // array_Y.push(y)
             this.ctx.fillStyle=color;
@@ -320,6 +315,7 @@ class GameSnake {
     }
 
     angle_vision(){
+
         let state_face;
         let state_left;
         let state_right;
@@ -361,14 +357,9 @@ class GameSnake {
 
             this.state_all = this.lastaction + "-" + state_face + '-' + state_left + '-' + state_right
 
-        }
-        
-        
+        }   
     }
-
-
 }
-
 
 class SnakePart{
 
