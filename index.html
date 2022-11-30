@@ -8,86 +8,107 @@
     <link href="index.css" rel="stylesheet">
 </head>
 <body>
-    <div class ="head" >
 
-        <div>
-        <h1> SNAKE GAME & REINFORCEMENT LEARNING </h1>
+    <div>
+        <div class ="head" id ="personal_website">
+
+            <a href="" >
+                <img src="img/iconmonstr-user-20.svg" class = "perso" id="user">
+            </a>
+            <a href="" >
+                <img src="img/iconmonstr-linkedin-3.svg" class = "perso" id = "link">
+            </a>
+
+            <a href="" >
+                <img src="img/iconmonstr-github-1.svg" class = "perso"  id="git" >
+            </a>
+
+
         </div>
-        <div class = "q_learning">
 
-            <h2>What is Q-Learning? </h2>
-            <p>
-            Q-learning is a reinforcement learning method that teaches a learning agent how to perform a task by rewarding good behavior and punishing bad behavior. In Snake, for example, eat the food is good. hit his body is bad. At each point in the game, the agent will choose the action with the highest expected reward.
-            As below.
-
-            </p>
-
-            <img class = "schema"  src = 'img/schema_rl.png'>
-
-            <p>
-                This process is illustrated in the image above. The agent represented by the snake, at time t, in state S_t, will have to choose an action A_t (up, down, right, left). According to this action and the state of arrival, the couple S_t and A_t will be associated to a reward R_t+1 according to the state S_t+1.
-
-                The reward is calculated as follows:
-            </p>
-
-            <img class = "calcul"  src = 'img/q_learning_image.png'>
+        <div class ="head" id ="head_">
 
             <div>
-                <h1> Rules of the game </h1>
-
-                The particularity of this game is that the snake can only see a few meters in front of him and on the sides (not more for computational reasons). This means that the snake only knows where the apple is when it is in its field of view. This is not the best configuration since the snake will not learn anything when it will not detect anything but the goal here is not to spoiler the snake with the position of the apple but to see how it will behave by curiosity. 
-
-                The snake will be rewarded when it detects the apple and moves towards it or if it eats the apple but not inadvertently.
-
-                It will be punished if it touches its tail and dies.
-
-                The table state below represents the 108 states the snake can be in. It will be represented by a red square when the snake has not made the right decision, black when it has not yet been in that state and blue when it has learned something.
-
-
-
-
+            <h1> SNAKE GAME & REINFORCEMENT LEARNING </h1>
             </div>
+            <div class = "q_learning">
 
-        </div>
+                <h2>What is Q-Learning? </h2>
+                <p>
+                Q-learning is a reinforcement learning method that teaches a learning agent how to perform a task by rewarding good behavior and punishing bad behavior. In Snake, for example, eat the food is good. hit his body is bad. At each point in the game, the agent will choose the action with the highest expected reward.
+                As below.
 
-        
-        <div class = "game_board">
-           
-            <div class = "same_">
-                <h1> BOARD GAME </h1>
-                <canvas id="game"  width="400" height="400"></canvas>
-            </div>
-           
-            <div class="same_">
+                </p>
 
-                <div class = "button_">
-                    <div>
-                        <button id ="play"  type="button">PLAY</button>
-                    </div>
-            
-                    <div>
-                        <button id ="stop"  type="button">STOP</button>
-                    </div>
-            
-                    <div >
-                        <button id ="speed_inc"  type="button">INCREASE SPEED</button>
-                    </div>
-            
-                    <div >
-                        <button id ="speed_dec"  type="button">DECREASE SPEED</button>
-                    </div>
+                <img class = "schema"  src = 'img/schema_rl.png'>
+
+                <p>
+                    This process is illustrated in the image above. The agent represented by the snake, at time t, in state S_t, will have to choose an action A_t (up, down, right, left). According to this action and the state of arrival, the couple S_t and A_t will be associated to a reward R_t+1 according to the state S_t+1.
+
+                    The reward is calculated as follows:
+                </p>
+
+                <img class = "calcul"  src = 'img/q_learning_image.png'>
+
+                <div>
+                    <p>
+                    - the learning rate, set between 0 and 1. Setting it to 0 means that the Q-values are never updated, hence nothing is learned. Setting a high value such as 0.9 means that learning can occur quickly. <br>
+                    - The discount factor essentially determines how much the reinforcement learning agents cares about rewards in the distant future relative to those in the immediate future. If γ=0, the agent will be completely myopic and only learn about actions that produce an immediate reward.
+                    </p>
+
+                    <h1> Rules of the game </h1>
+                    <p>
+                    The particularity of this game is that the snake can only see a few meters in front of him and on the sides (not more for computational reasons). This means that the snake only knows where the apple is when it is in its field of view. This is not the best configuration since the snake will not learn anything when it will not detect anything but the goal here is not to spoiler the snake with the position of the apple but to see how it will behave by curiosity. 
+
+                    The snake will be rewarded when it detects the apple and moves towards it or if it eats the apple but not inadvertently.
+
+                    It will be punished if it touches its tail and dies.
+
+                    The table state below represents the 108 states the snake can be in. It will be represented by a red square when the snake has not made the right decision, black when it has not yet been in that state and blue when it has learned something.
+                    </p>
+
                 </div>
 
-                <h1 id = "best" >Best score: <span id="bestscore"></span></h1>
             </div>
-        </div>
-        <div>
-            <h1> STATE TABLE </h1>
-            <canvas id="table_state"  width="1080" height="160"></canvas>
+
+            
+            <div class = "game_board">
+            
+                <div class = "same_">
+                    <h1> BOARD GAME </h1>
+                    <canvas id="game"  width="400" height="400"></canvas>
+                </div>
+            
+                <div class="same_">
+
+                    <div class = "button_">
+                        <div>
+                            <button id ="play"  type="button">PLAY</button>
+                        </div>
+                
+                        <div>
+                            <button id ="stop"  type="button">STOP</button>
+                        </div>
+                
+                        <div >
+                            <button id ="speed_inc"  type="button">INCREASE SPEED</button>
+                        </div>
+                
+                        <div >
+                            <button id ="speed_dec"  type="button">DECREASE SPEED</button>
+                        </div>
+                    </div>
+
+                    <h1 id = "best" >Best score: <span id="bestscore"></span></h1>
+                </div>
+            </div>
+            <div>
+                <h1> STATE TABLE </h1>
+                <canvas id="table_state"  width="1080" height="160"></canvas>
+            </div>
+
         </div>
     </div>
-
-
 
     <script src = "Game_Snake.js"></script>
     <script src = "Q_learning.js"></script>
