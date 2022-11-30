@@ -1,0 +1,82 @@
+body{
+    margin : 30px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(82, 60, 59);
+    font-size: 18px;
+
+}
+
+div.head{
+
+    text-align:  center;
+    margin-left: 25%;
+    margin-right: 25%;
+
+}
+
+div.q_learning{
+
+    margin-top : 10%;
+}
+
+canvas{
+    box-shadow: black 20px 10px 50px;;
+}
+
+h1 {
+    color: white;
+}
+.q_learning {
+
+    color : white;
+}
+
+img {
+    border-radius: 3px;
+    border-color: black;
+    border-width: 10 px;
+    position: center;
+    width: 40%;
+    margin-top : 3%;
+    margin-bottom : 3%;
+
+}
+
+.same_ {
+    display: inline-block;
+
+}
+
+#best {
+    margin : 100px;
+}
+
+button {
+
+    border-color: rgb(150, 21, 118);
+    color: white;
+    background-color: blueviolet;
+    margin-top: 30px;
+    margin-left: 30%;
+    width : 80%;
+    
+}
+
+.calcul {
+
+    width: 65%;
+}
+
+#table_state{
+
+    margin-bottom: 10%;
+}
+
+.game_board{
+
+    margin-top : 10%;
+}
