@@ -198,14 +198,9 @@ class Q_learning{
             max = Math.max(q1.up,q1.down,q1.right) 
         }
         console.log("max",max)
-        if (max == 0){
+ 
 
-            this.Snake.ctx_state.fillStyle = 'black';
-            this.Snake.ctx_state.fillRect(coord.x,coord.y,this.Snake.taille_table,this.Snake.taille_table);
-
-        } 
-
-        if (max > 0){
+        if (max => 0){
 
 
             this.Snake.ctx_state.fillStyle = 'blue';
