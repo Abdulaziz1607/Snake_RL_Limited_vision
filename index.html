@@ -12,14 +12,14 @@
     <div>
         <div class ="head" id ="personal_website">
 
-            <a href="" >
+            <a href="https://abdulaziz-portfolio.vercel.app/" >
                 <img src="img/iconmonstr-user-20.svg" class = "perso" id="user">
             </a>
-            <a href="" >
+            <a href="https://www.linkedin.com/in/abdulaziz-sadi-cherif-44a7a915b/" >
                 <img src="img/iconmonstr-linkedin-3.svg" class = "perso" id = "link">
             </a>
 
-            <a href="" >
+            <a href="https://github.com/Abdulaziz1607" >
                 <img src="img/iconmonstr-github-1.svg" class = "perso"  id="git" >
             </a>
 
@@ -36,7 +36,7 @@
                 <h2>What is Q-Learning? </h2>
                 <p>
                 Q-learning is a reinforcement learning method that teaches a learning agent how to perform a task by rewarding good behavior and punishing bad behavior. In Snake, for example, eat the food is good. hit his body is bad. At each point in the game, the agent will choose the action with the highest expected reward.
-                As below.
+             
 
                 </p>
 
@@ -58,13 +58,16 @@
 
                     <h1> Rules of the game </h1>
                     <p>
-                    The particularity of this game is that the snake can only see a few meters in front of him and on the sides (not more for computational reasons). This means that the snake only knows where the apple is when it is in its field of view. This is not the best configuration since the snake will not learn anything when it will not detect anything but the goal here is not to spoiler the snake with the position of the apple but to see how it will behave by curiosity. 
+                    The particularity of my game is that the snake can only see a few meters in front of him and on the sides (not more for computational reasons). This means that the snake only knows where the apple is when it is in its field of view. This is not the best configuration since the snake will not learn anything when it will not detect anything but the goal here is not to spoiler the snake with the position of the apple but to see how it will behave by curiosity. 
 
                     The snake will be rewarded when it detects the apple and moves towards it or if it eats the apple but not inadvertently.
 
                     It will be punished if it touches its tail and dies.
 
-                    The table state below represents the 108 states the snake can be in. It will be represented by a red square when the snake has not made the right decision, black when it has not yet been in that state and blue when it has learned something.
+                    The table state below the board game represents the 108 states the snake can be in. It will be represented by a red square when the snake has not made the right decision, black when it has not yet been in that state and blue when it has made a good decision.
+                    <br></br>
+                    You can have fun watching the behavior of the IA by pressing play (better to increase the speed at the beginning). If you want to have fun changing or improving the game configuration, you can access my github on the top left of the page.
+
                     </p>
 
                 </div>
@@ -79,31 +82,36 @@
                     <canvas id="game"  width="400" height="400"></canvas>
                 </div>
             
-                <div class="same_">
+                <div class="same_" id = "display">
 
                     <div class = "button_">
+
+                        <h1 id = "best" >Best score: <span id="bestscore"></span></h1>
+                    </div>
+
+                    <div class = "button_" id ="but">
                         <div>
-                            <button id ="play"  type="button">PLAY</button>
+                            <button id ="play"  type="button" >PLAY</button>
                         </div>
                 
                         <div>
-                            <button id ="stop"  type="button">STOP</button>
+                            <button id ="stop"  type="button" class = "button_2">STOP</button>
                         </div>
                 
                         <div >
-                            <button id ="speed_inc"  type="button">INCREASE SPEED</button>
+                            <button id ="speed_inc"  type="button" class = "button_2">INCREASE SPEED</button>
                         </div>
                 
                         <div >
-                            <button id ="speed_dec"  type="button">DECREASE SPEED</button>
+                            <button id ="speed_dec"  type="button" class = "button_2">DECREASE SPEED</button>
                         </div>
                     </div>
 
-                    <h1 id = "best" >Best score: <span id="bestscore"></span></h1>
+                   
                 </div>
             </div>
-            <div>
-                <h1> STATE TABLE </h1>
+            <div class = "table_t">
+
                 <canvas id="table_state"  width="1080" height="160"></canvas>
             </div>
 
